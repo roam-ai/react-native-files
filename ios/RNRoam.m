@@ -140,11 +140,14 @@ RCT_EXPORT_METHOD(toggleEvents:(BOOL)geofence trip:(BOOL)trip location:(BOOL)loc
 
 // Toggle Listener
 RCT_EXPORT_METHOD(toggleListener:(BOOL)location event:(BOOL)event :(RCTResponseSenderBlock)successCallback rejecter:(RCTResponseErrorBlock)errorCallback){
+  // Toggle the specified listeners (location and event) using the Roam SDK
   [Roam toggleListenerWithEvents:event Locations:event handler:^(RoamUser * user, RoamError * error) {
     if (error == nil) {
+      // If the listener toggling is successful, process the updated user data and send it to JavaScript
       NSMutableArray *success = [[NSMutableArray alloc] initWithObjects:[self userData:user], nil];
       successCallback(success);
     }else{
+      // If an error occurs, process the error and send it to JavaScript
       errorCallback([self error:error]);
     }
   }];
@@ -152,11 +155,14 @@ RCT_EXPORT_METHOD(toggleListener:(BOOL)location event:(BOOL)event :(RCTResponseS
 
 //getEvents Status
 RCT_EXPORT_METHOD(getEventsStatus:(RCTResponseSenderBlock)successCallback rejecter:(RCTResponseErrorBlock)errorCallback){
+  // Fetch the current status of event listeners from the Roam SDK
   [Roam getEventsStatusWithHandler:^(RoamUser * user, RoamError * error) {
     if (error == nil) {
+      // If the status is fetched successfully, process the user data and send it to JavaScript
       NSMutableArray *success = [[NSMutableArray alloc] initWithObjects:[self userData:user], nil];
       successCallback(success);
     }else{
+      // If an error occurs, process the error and send it to JavaScript
       errorCallback([self error:error]);
     }
   }];
