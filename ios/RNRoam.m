@@ -77,21 +77,26 @@ RCT_EXPORT_MODULE(); // Exposes this module to the React Native environment
 
 
 -(void)startObserving {
+  // Set the `hasListeners` flag to `YES` to indicate that there are active listeners.
   hasListeners = YES;
 }
 
 - (void)stopObserving {
+  // Set the `hasListeners` flag to `NO` to stop emitting events.
   hasListeners = NO;
 }
 
 
 // Create User
 RCT_EXPORT_METHOD(createUser:(NSString *)userDescription meta:(NSDictionary *)dict :(RCTResponseSenderBlock)successCallback rejecter:(RCTResponseErrorBlock)errorCallback){
+  // Call the Roam SDK's createUser method to create a new user.
   [Roam createUser:userDescription:dict handler:^(RoamUser * user, RoamError * error) {
     if (error == nil) {
+      // If the creation is successful, process the user data and send it to JavaScript.
       NSMutableArray *success = [[NSMutableArray alloc] initWithObjects:[self userData:user], nil];
       successCallback(success);
     }else{
+      // If an error occurs, process the error and send it to JavaScript.
       errorCallback([self error:error]);
     }
   }];
