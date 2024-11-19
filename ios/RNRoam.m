@@ -36,34 +36,43 @@ RCT_EXPORT_MODULE(); // Exposes this module to the React Native environment
 
 // Roam Delegate Methods
 - (void)didUpdateLocation:(NSArray<RoamLocation *> *)locations {
+  // Check if there are any listeners registered for the 'location' event
   if (hasListeners) {
+      // Process the received location data and send it to JavaScript
     [self sendEventWithName:@"location" body:[self userLocation:locations]];
   }
 }
 - (void)onReceiveTrip:(NSArray<RoamTripStatus *> *)tripStatus {
+  // Check if there are any listeners registered for the 'trip_status' event
   if (hasListeners) {
+      // Process the received trip status data and send it to JavaScript
     [self sendEventWithName:@"trip_status" body:[self didTripStatus:tripStatus]];
     
   }
 }
 
 - (void)didReceiveUserLocation:(RoamLocationReceived *)location{
+  // Check if there are any listeners registered for the 'location_received' event
   if (hasListeners) {
+      // Process the received user location data and send it to JavaScript
     [self sendEventWithName:@"location_received" body:[self didUserLocation:location]];
   }
 }
 
 - (void)onError:(RoamError *)error{
+  // Check if there are any listeners registered for the 'error' event
   if (hasListeners) {
+      // Process the received error and send it to JavaScript
     [self sendEventWithName:@"error" body:[self error:error]];
   }
 }
 
 - (void)didReceiveEvents:(RoamEvents *)events {
+  // Check if there are any listeners registered for the 'events' event
   if (hasListeners) {
+      // Process the received event data and send it to JavaScript
         [self sendEventWithName:@"events" body:[self didUpdateEvent:events]];
   }
-
 }
 
 
