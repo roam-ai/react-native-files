@@ -104,11 +104,14 @@ RCT_EXPORT_METHOD(createUser:(NSString *)userDescription meta:(NSDictionary *)di
 
 // Get User
 RCT_EXPORT_METHOD(getUser:(NSString *)userId :(RCTResponseSenderBlock)successCallback rejecter:(RCTResponseErrorBlock)errorCallback){
+  // Fetch user information from the Roam SDK based on the provided user ID
   [Roam getUser:userId handler:^(RoamUser * user, RoamError * error) {
     if (error == nil) {
+      // If the user is fetched successfully, process the user data and send it to JavaScript
       NSMutableArray *success = [[NSMutableArray alloc] initWithObjects:[self userData:user], nil];
       successCallback(success);
     }else{
+      // If an error occurs, process the error and send it to JavaScript
       errorCallback([self error:error]);
     }
   }];
@@ -116,16 +119,20 @@ RCT_EXPORT_METHOD(getUser:(NSString *)userId :(RCTResponseSenderBlock)successCal
 
 // Set Description User
 RCT_EXPORT_METHOD(setDescription:(NSString *)userDescription metaData:(NSDictionary *)dict){
+  // Update the user's description and metadata using the Roam SDK
   [Roam updateUser:userDescription :dict];
 }
 
 // Toggle Events
 RCT_EXPORT_METHOD(toggleEvents:(BOOL)geofence trip:(BOOL)trip location:(BOOL)location movingGeofence:(BOOL)movingGeofence :(RCTResponseSenderBlock)successCallback rejecter:(RCTResponseErrorBlock)errorCallback){
+  // Toggle the specified events (geofence, trip, location, moving geofence) using the Roam SDK
   [Roam toggleEventsWithGeofence:geofence Trip:trip Location:location MovingGeofence:movingGeofence handler:^(RoamUser * user, RoamError * error) {
     if (error == nil) {
+      // If the event toggling is successful, process the updated user data and send it to JavaScript
       NSMutableArray *success = [[NSMutableArray alloc] initWithObjects:[self userData:user], nil];
       successCallback(success);
     }else{
+      // If an error occurs, process the error and send it to JavaScript
       errorCallback([self error:error]);
     }
   }];
